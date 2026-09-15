@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MindArena | Result</title>
+
+    <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800&family=Rajdhani:wght@400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    min-height: 100vh;
+    font-family: 'Rajdhani', sans-serif;
+    color: #ffffff;
+    background:
+        radial-gradient(circle at 15% 20%, rgba(0, 238, 255, 0.14), transparent 30%),
+        radial-gradient(circle at 85% 80%, rgba(164, 65, 255, 0.18), transparent 35%),
+        #050817;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 15px;
+    overflow-x: hidden;
+}
+
+/* Background glowing circles */
+body::before,
+body::after {
+    content: "";
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(2px);
+    pointer-events: none;
+    z-index: -1;
+}
+
+body::before {
+    width: 260px;
+    height: 260px;
+    top: -100px;
+    left: -100px;
+    border: 1px solid rgba(0, 238, 255, 0.25);
+    box-shadow: 0 0 60px rgba(0, 238, 255, 0.15);
+}
+
+body::after {
+    width: 300px;
+    height: 300px;
+    bottom: -130px;
+    right: -120px;
+    border: 1px solid rgba(177, 70, 255, 0.3);
+    box-shadow: 0 0 80px rgba(177, 70, 255, 0.2);
+}
+
+/* Main result container */
+.result-container,
+.container,
+.result-box {
+    width: 100%;
+    max-width: 850px;
+    background: rgba(9, 17, 43, 0.94);
+    border: 1px solid rgba(0, 238, 255, 0.45);
+    border-radius: 22px;
+    padding: 38px;
+    text-align: center;
+    box-shadow:
+        0 0 20px rgba(0, 238, 255, 0.12),
+        0 0 60px rgba(0, 238, 255, 0.06),
+        inset 0 0 25px rgba(0, 238, 255, 0.025);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Top glowing line */
+.result-container::before,
+.container::before,
+.result-box::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 10%;
+    width: 80%;
+    height: 3px;
+    background: linear-gradient(90deg, transparent, #00eeff, #a855f7, transparent);
+    box-shadow: 0 0 15px #00eeff;
+}
+
+/* Heading */
+h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(25px, 4vw, 42px);
+    font-weight: 800;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    color: #ffffff;
+    text-shadow:
+        0 0 8px rgba(0, 238, 255, 0.7),
+        0 0 22px rgba(0, 238, 255, 0.3);
+}
+
+h1 span {
+    color: #00eeff;
+}
+
+h2 {
+    color: #00eeff;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 20px;
+    margin: 20px 0;
+    letter-spacing: 1px;
+}
+
+p {
+    color: #aab7d6;
+    font-size: 18px;
+    margin: 8px 0;
+}
+
+strong {
+    color: #ffffff;
+}
+
+/* Player information */
+.player-info {
+    margin: 20px auto;
+    padding: 15px 20px;
+    max-width: 550px;
+    background: rgba(0, 238, 255, 0.05);
+    border: 1px solid rgba(0, 238, 255, 0.25);
+    border-radius: 12px;
+    color: #dceaff;
+    font-size: 19px;
+}
+
+/* Score section */
+.score-section {
+    margin: 28px auto;
+    padding: 30px 20px;
+    border-radius: 18px;
+    background:
+        linear-gradient(145deg, rgba(0, 238, 255, 0.09), rgba(168, 85, 247, 0.09));
+    border: 1px solid rgba(168, 85, 247, 0.4);
+    box-shadow: inset 0 0 25px rgba(168, 85, 247, 0.05);
+}
+
+.score {
+    font-family: 'Orbitron', sans-serif;
+    font-size: clamp(55px, 10vw, 95px);
+    line-height: 1;
+    font-weight: 800;
+    color: #00eeff;
+    text-shadow:
+        0 0 10px #00eeff,
+        0 0 25px rgba(0, 238, 255, 0.6),
+        0 0 50px rgba(0, 238, 255, 0.25);
+    margin: 10px 0;
+}
+
+.score-label {
+    color: #aab7d6;
+    font-size: 18px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* Statistics cards */
+.stats,
+.statistics,
+.result-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin: 25px 0;
+}
+
+.stat-card,
+.stat,
+.stats > div,
+.statistics > div {
+    background: rgba(255, 255, 255, 0.035);
+    border: 1px solid rgba(0, 238, 255, 0.2);
+    border-radius: 14px;
+    padding: 20px 12px;
+    transition: 0.3s ease;
+}
+
+.stat-card:hover,
+.stat:hover,
+.stats > div:hover,
+.statistics > div:hover {
+    transform: translateY(-5px);
+    border-color: #00eeff;
+    box-shadow: 0 0 18px rgba(0, 238, 255, 0.2);
+}
+
+.stat-value {
+    display: block;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 28px;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 6px;
+}
+
+.stat-label {
+    display: block;
+    color: #8d9abb;
+    font-size: 15px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* Accuracy */
+.accuracy {
+    color: #a855f7;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 25px;
+    font-weight: 700;
+    text-shadow: 0 0 12px rgba(168, 85, 247, 0.7);
+}
+
+/* Wrong answers section */
+.wrong-answers {
+    text-align: left;
+    margin-top: 30px;
+    padding: 22px;
+    background: rgba(255, 70, 110, 0.045);
+    border: 1px solid rgba(255, 70, 110, 0.25);
+    border-radius: 15px;
+}
+
+.wrong-answers h2 {
+    color: #ff6688;
+    text-shadow: 0 0 10px rgba(255, 70, 110, 0.4);
+}
+
+.wrong-answer,
+.wrong-question {
+    margin: 15px 0;
+    padding: 18px;
+    border-left: 3px solid #ff5577;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.035);
+}
+
+.wrong-answer p,
+.wrong-question p {
+    margin: 7px 0;
+    font-size: 16px;
+}
+
+.wrong-answer .user-answer,
+.user-answer {
+    color: #ff6688;
+}
+
+.wrong-answer .correct-answer,
+.correct-answer {
+    color: #39f5a4;
+}
+
+/* Buttons */
+.buttons,
+.button-container,
+.actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+button,
+.btn,
+a.btn,
+a.button {
+    display: inline-block;
+    border: none;
+    border-radius: 10px;
+    padding: 13px 27px;
+    font-family: 'Orbitron', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-decoration: none;
+    cursor: pointer;
+    color: #04101d;
+    background: linear-gradient(135deg, #00eeff, #00b8ff);
+    box-shadow:
+        0 0 12px rgba(0, 238, 255, 0.35),
+        inset 0 -3px 0 rgba(0, 0, 0, 0.15);
+    transition: all 0.3s ease;
+}
+
+button:hover,
+.btn:hover,
+a.btn:hover,
+a.button:hover {
+    transform: translateY(-3px);
+    box-shadow:
+        0 0 20px rgba(0, 238, 255, 0.65),
+        0 0 35px rgba(0, 238, 255, 0.25);
+}
+
+.btn-secondary,
+.secondary,
+a.secondary {
+    color: #ffffff;
+    background: linear-gradient(135deg, #7c3aed, #a855f7);
+    box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
+}
+
+.btn-secondary:hover,
+.secondary:hover,
+a.secondary:hover {
+    box-shadow:
+        0 0 20px rgba(168, 85, 247, 0.7),
+        0 0 35px rgba(168, 85, 247, 0.3);
+}
+
+/* Responsive design */
+@media (max-width: 650px) {
+    .result-container,
+    .container,
+    .result-box {
+        padding: 25px 17px;
+    }
+
+    .stats,
+    .statistics,
+    .result-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .stat-card,
+    .stat,
+    .stats > div,
+    .statistics > div {
+        padding: 15px;
+    }
+
+    .buttons,
+    .button-container,
+    .actions {
+        flex-direction: column;
+    }
+
+    button,
+    .btn,
+    a.btn,
+    a.button {
+        width: 100%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<nav>
+    <div class="logo">Mind<span>Arena</span> 🧠</div>
+</nav>
+
+<div class="result-container">
+
+    <div class="result-header">
+        <div class="trophy">
+            {% if accuracy >= 80 %}🏆
+            {% elif accuracy >= 50 %}🎉
+            {% else %}💪
+            {% endif %}
+        </div>
+
+        <h1>Quiz Completed!</h1>
+        <p>Great effort, {{ player_name }}. Here is your performance.</p>
+
+        <div class="stats">
+            <div class="stat">
+                <h2>{{ score }}/{{ total_questions }}</h2>
+                <p>YOUR SCORE</p>
+            </div>
+
+            <div class="stat">
+                <h2>{{ accuracy }}%</h2>
+                <p>ACCURACY</p>
+            </div>
+
+            <div class="stat">
+                <h2>{{ total_questions - score }}</h2>
+                <p>WRONG ANSWERS</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="review-card">
+        <h2>📝 Answer Review</h2>
+
+        {% for item in review %}
+        <div class="review-item {% if item.is_correct %}correct{% else %}wrong{% endif %}">
+
+            <div class="review-title">
+                Q{{ item.number }}. {{ item.question }}
+            </div>
+
+            {% if item.is_correct %}
+                <div class="correct-text">✓ Correct Answer</div>
+                <div class="answer-line">
+                    Your answer: {{ item.user_answer }}
+                </div>
+            {% else %}
+                <div class="wrong-text">✗ Wrong Answer</div>
+                <div class="answer-line">
+                    Your answer: {{ item.user_answer }}
+                </div>
+                <div class="answer-line correct-text">
+                    Correct answer: {{ item.correct_answer }}
+                </div>
+            {% endif %}
+
+        </div>
+        {% endfor %}
+
+        <div class="buttons">
+            <a href="{{ url_for('restart') }}" class="btn orange">
+                🔄 Restart Quiz
+            </a>
+
+            <a href="{{ url_for('home') }}" class="btn">
+                🏠 Home
+            </a>
+
+            <a href="{{ url_for('history') }}" class="btn light">
+                📊 Quiz History
+            </a>
+        </div>
+    </div>
+
+</div>
+
+</body>
+</html>

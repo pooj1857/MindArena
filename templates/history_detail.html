@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz Details - MindArena</title>
+
+    <style>
+        body {
+            margin: 0;
+            padding: 25px;
+            font-family: Arial, sans-serif;
+            background: #f4f6fb;
+            color: #222;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: auto;
+            background: white;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        h1 {
+            text-align: center;
+            color: #4b3fce;
+            margin-bottom: 25px;
+        }
+
+        h2 {
+            color: #333;
+            margin-top: 35px;
+        }
+
+        .quiz-info {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+        }
+
+        .info-box {
+            padding: 15px;
+            background: #f1f2ff;
+            border-radius: 10px;
+        }
+
+        .review-item {
+            margin-top: 20px;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 12px;
+            background: #fafafa;
+        }
+
+        .review-item h3 {
+            color: #4b3fce;
+            margin-top: 0;
+        }
+
+        .correct-answer {
+            color: green;
+            font-weight: bold;
+        }
+
+        .wrong-answer {
+            color: red;
+            font-weight: bold;
+        }
+
+        .back-btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 12px 20px;
+            background: #4b3fce;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+        }
+
+        .back-btn:hover {
+            background: #372da5;
+        }
+
+        @media (max-width: 600px) {
+            .quiz-info {
+                grid-template-columns: 1fr;
+            }
+
+            body {
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <h1>Quiz Details</h1>
+
+    <div class="quiz-info">
+
+        <div class="info-box">
+            <strong>Player:</strong>
+            {{ quiz["player_name"] }}
+        </div>
+
+        <div class="info-box">
+            <strong>Subject:</strong>
+            {{ quiz["subject"] }}
+        </div>
+
+        <div class="info-box">
+            <strong>Difficulty:</strong>
+            {{ quiz["difficulty"] }}
+        </div>
+
+        <div class="info-box">
+            <strong>Date:</strong>
+            {{ quiz["date_time"] or "Not Available" }}
+        </div>
+
+        <div class="info-box">
+            <strong>Score:</strong>
+            {{ quiz["score"] }}/{{ quiz["total_questions"] }}
+        </div>
+
+        <div class="info-box">
+            <strong>Accuracy:</strong>
+            {{ quiz["accuracy"] or 0 }}%
+        </div>
+
+    </div>
+
+    <h2>Question-wise Answers</h2>
+
+    {% if answer_details %}
+
+        {% for item in answer_details %}
+
+            <div class="review-item">
+
+                <h3>Question {{ loop.index }}</h3>
+
+                <p>
+                    <strong>Question:</strong>
+                    {{ item["question"] }}
+                </p>
+
+                <p>
+                    <strong>Your Answer:</strong>
+                    {{ item["user_answer"] }}
+                </p>
+
+                <p>
+                    <strong>Correct Answer:</strong>
+                    {{ item["correct_answer"] }}
+                </p>
+
+                {% if item["is_correct"] %}
+                    <p class="correct-answer">✅ Correct</p>
+                {% else %}
+                    <p class="wrong-answer">❌ Wrong</p>
+                {% endif %}
+
+            </div>
+
+        {% endfor %}
+
+    {% else %}
+
+        <p>No answer details are available for this quiz.</p>
+
+    {% endif %}
+
+    <a href="{{ url_for('history') }}" class="back-btn">
+        ← Back to History
+    </a>
+
+</div>
+
+</body>
+</html>

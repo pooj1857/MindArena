@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Quiz History | MindArena</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;600;700;800&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: 'Rajdhani', sans-serif;
+            color: #ffffff;
+            background:
+                radial-gradient(circle at 10% 10%, rgba(0, 238, 255, 0.12), transparent 30%),
+                radial-gradient(circle at 90% 90%, rgba(168, 85, 247, 0.16), transparent 35%),
+                #050817;
+            padding: 35px 15px;
+        }
+
+        .container {
+            width: 94%;
+            max-width: 1250px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            flex-wrap: wrap;
+            margin-bottom: 28px;
+        }
+
+        .title-area h1 {
+            font-family: 'Orbitron', sans-serif;
+            font-size: clamp(24px, 4vw, 38px);
+            letter-spacing: 2px;
+            color: #ffffff;
+            text-shadow:
+                0 0 8px rgba(0, 238, 255, 0.7),
+                0 0 22px rgba(0, 238, 255, 0.3);
+        }
+
+        .title-area h1 span {
+            color: #00eeff;
+        }
+
+        .title-area p {
+            margin-top: 8px;
+            color: #9ba9c9;
+            font-size: 17px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            border: none;
+            border-radius: 10px;
+            padding: 12px 20px;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: 0.3s ease;
+        }
+
+        .home-btn {
+            color: #04101d;
+            background: linear-gradient(135deg, #00eeff, #00aaff);
+            box-shadow: 0 0 15px rgba(0, 238, 255, 0.3);
+        }
+
+        .home-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 25px rgba(0, 238, 255, 0.7);
+        }
+
+        .clear-btn {
+            color: #ffffff;
+            background: rgba(255, 65, 110, 0.12);
+            border: 1px solid rgba(255, 65, 110, 0.55);
+        }
+
+        .clear-btn:hover {
+            background: #e93667;
+            box-shadow: 0 0 18px rgba(255, 65, 110, 0.5);
+        }
+
+        /* Main card */
+        .table-card {
+            position: relative;
+            background: rgba(9, 17, 43, 0.95);
+            border: 1px solid rgba(0, 238, 255, 0.3);
+            border-radius: 20px;
+            padding: 22px;
+            overflow-x: auto;
+            box-shadow:
+                0 0 25px rgba(0, 238, 255, 0.08),
+                inset 0 0 25px rgba(0, 238, 255, 0.025);
+        }
+
+        .table-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 10%;
+            width: 80%;
+            height: 3px;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                #00eeff,
+                #a855f7,
+                transparent
+            );
+            box-shadow: 0 0 15px #00eeff;
+        }
+
+        table {
+            width: 100%;
+            min-width: 950px;
+            border-collapse: collapse;
+        }
+
+        thead tr {
+            background: rgba(0, 238, 255, 0.08);
+        }
+
+        th {
+            padding: 17px 14px;
+            text-align: left;
+            color: #00eeff;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 12px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            border-bottom: 1px solid rgba(0, 238, 255, 0.25);
+            white-space: nowrap;
+        }
+
+        td {
+            padding: 17px 14px;
+            color: #d7def2;
+            font-size: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+            white-space: nowrap;
+        }
+
+        tbody tr {
+            transition: 0.25s ease;
+        }
+
+        tbody tr:hover {
+            background: rgba(0, 238, 255, 0.06);
+        }
+
+        .score {
+            color: #39f5a4;
+            font-weight: 700;
+            text-shadow: 0 0 8px rgba(57, 245, 164, 0.3);
+        }
+
+        .accuracy {
+            color: #c084fc;
+            font-weight: 700;
+        }
+
+        .subject {
+            color: #ffffff;
+            font-weight: 600;
+        }
+
+        .difficulty {
+            color: #00eeff;
+            font-weight: 600;
+        }
+
+        .view-btn {
+            display: inline-block;
+            padding: 9px 14px;
+            border-radius: 8px;
+            color: #04101d;
+            background: linear-gradient(135deg, #00eeff, #55cfff);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 700;
+            transition: 0.3s ease;
+        }
+
+        .view-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 0 15px rgba(0, 238, 255, 0.6);
+        }
+
+        /* Empty history */
+        .empty {
+            text-align: center;
+            padding: 75px 20px;
+        }
+
+        .empty-icon {
+            font-size: 60px;
+            margin-bottom: 18px;
+            filter: drop-shadow(0 0 12px rgba(0, 238, 255, 0.5));
+        }
+
+        .empty h2 {
+            font-family: 'Orbitron', sans-serif;
+            color: #00eeff;
+            font-size: 22px;
+            margin-bottom: 12px;
+        }
+
+        .empty p {
+            color: #9ba9c9;
+            font-size: 17px;
+        }
+
+        /* Mobile */
+        @media (max-width: 650px) {
+            body {
+                padding: 22px 10px;
+            }
+
+            .container {
+                width: 97%;
+            }
+
+            .header {
+                align-items: flex-start;
+            }
+
+            .actions {
+                width: 100%;
+            }
+
+            .btn {
+                flex: 1;
+                text-align: center;
+                padding: 11px 12px;
+            }
+
+            .table-card {
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <div class="title-area">
+            <h1>📚 <span>Quiz</span> History</h1>
+            <p>Track your previous MindArena quiz performances.</p>
+        </div>
+
+        <div class="actions">
+
+            <a href="{{ url_for('home') }}" class="btn home-btn">
+                ← Home
+            </a>
+
+            {% if quiz_history %}
+            <form action="{{ url_for('clear_history') }}" method="POST"
+                  onsubmit="return confirm('Are you sure you want to clear all quiz history?');">
+
+                <button type="submit" class="btn clear-btn">
+                    🗑 Clear History
+                </button>
+
+            </form>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <div class="table-card">
+
+        {% if quiz_history %}
+
+        <table>
+
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Player Name</th>
+                    <th>Subject</th>
+                    <th>Difficulty</th>
+                    <th>Score</th>
+                    <th>Accuracy</th>
+                    <th>Date & Time</th>
+                    <th>Answers</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for record in quiz_history %}
+
+                <tr>
+                    <td>{{ loop.index }}</td>
+
+                    <td>{{ record["player_name"] }}</td>
+
+                    <td class="subject">
+                        {{ record["subject"] }}
+                    </td>
+
+                    <td class="difficulty">
+                        {{ record["difficulty"] }}
+                    </td>
+
+                    <td class="score">
+                        {{ record["score"] }}/{{ record["total_questions"] }}
+                    </td>
+
+                    <td class="accuracy">
+                        {{ record["accuracy"] }}%
+                    </td>
+
+                    <td>
+                        {{ record["quiz_date"] }}
+                    </td>
+
+                    <td>
+                        <a href="{{ url_for('history_detail', quiz_id=record['id']) }}"
+                           class="view-btn">
+                            View Answers
+                        </a>
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+        {% else %}
+
+        <div class="empty">
+            <div class="empty-icon">📖</div>
+            <h2>No Quiz History Yet</h2>
+            <p>Complete a quiz to see your results here.</p>
+        </div>
+
+        {% endif %}
+
+    </div>
+
+</div>
+
+</body>
+</html>
