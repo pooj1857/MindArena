@@ -620,6 +620,8 @@
             }
         }
 
+
+
         /* FIX: Make answer options clickable */
 .answers-area,
 .answer-option,
@@ -644,6 +646,73 @@ label {
 .option input[type="radio"] {
     pointer-events: auto !important;
     cursor: pointer !important;
+}
+
+/* Answer feedback colors */
+
+.answer-button.correct-answer {
+    border-color: #22c55e !important;
+    background: linear-gradient(
+        100deg,
+        rgba(20, 130, 70, 0.95),
+        rgba(10, 75, 45, 0.98)
+    ) !important;
+    box-shadow:
+        0 0 15px rgba(34, 197, 94, 0.7),
+        inset 0 0 20px rgba(34, 197, 94, 0.15) !important;
+}
+
+.answer-button.correct-answer .answer-label {
+    color: #ffffff !important;
+    background: #16a34a !important;
+    border-color: #86efac !important;
+    box-shadow: 0 0 15px rgba(34, 197, 94, 0.8) !important;
+}
+
+.answer-button.wrong-answer {
+    border-color: #ef4444 !important;
+    background: linear-gradient(
+        100deg,
+        rgba(150, 30, 45, 0.95),
+        rgba(85, 15, 35, 0.98)
+    ) !important;
+    box-shadow:
+        0 0 15px rgba(239, 68, 68, 0.7),
+        inset 0 0 20px rgba(239, 68, 68, 0.15) !important;
+}
+
+.answer-button.wrong-answer .answer-label {
+    color: #ffffff !important;
+    background: #dc2626 !important;
+    border-color: #fca5a5 !important;
+    box-shadow: 0 0 15px rgba(239, 68, 68, 0.8) !important;
+}
+
+.answer-feedback {
+    display: none;
+    margin-top: 7px;
+    margin-left: 68px;
+    font-size: 14px;
+    font-weight: 700;
+    letter-spacing: 1px;
+}
+
+.answer-feedback.correct-feedback {
+    color: #4ade80;
+    text-shadow: 0 0 8px rgba(34, 197, 94, 0.8);
+}
+
+.answer-feedback.wrong-feedback {
+    color: #f87171;
+    text-shadow: 0 0 8px rgba(239, 68, 68, 0.8);
+}
+
+.answer-option.answer-disabled {
+    cursor: default !important;
+}
+
+.answer-option.answer-disabled:hover .answer-button {
+    transform: none;
 }
     </style>
 </head>
@@ -729,35 +798,38 @@ label {
                     {% set question_index = loop.index0 %}
 
                         <div
-                            class="answer-group {% if loop.first %}active{% endif %}"
-                            data-answer-group="{{ question_index }}"
-                            style="{% if not loop.first %}display:none;{% endif %}"
-                        >
+    class="answer-group {% if loop.first %}active{% endif %}"
+    data-answer-group="{{ question_index }}"
+    data-correct="{{ q.answer }}"
+    style="{% if not loop.first %}display:none;{% endif %}"
+>
 
                             {% for option in q.options %}
 
 
-    <label class="answer-option">
+<label class="answer-option">
 
-        <input 
-            type="radio" 
-            name="answer_{{ question_index }}" 
-            value="{{ option }}"
-        >
+    <input
+        type="radio"
+        name="answer_{{ question_index }}"
+        value="{{ option }}"
+    >
 
-        <span class="answer-button">
+    <span class="answer-button">
 
-            <span class="answer-label">
-                {{ letters[loop.index0] }}
-            </span>
-
-            <span class="answer-text">
-                {{ option }}
-            </span>
-
+        <span class="answer-label">
+            {{ letters[loop.index0] }}
         </span>
 
-    </label>
+        <span class="answer-text">
+            {{ option }}
+        </span>
+
+    </span>
+
+    <span class="answer-feedback"></span>
+
+</label>
 
                             {% endfor %}
 

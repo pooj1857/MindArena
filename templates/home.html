@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>MindArena | Challenge Your Mind</title>
+    <title>BrainBattle | Challenge Your Mind</title>
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='style.css') }}">
@@ -1001,15 +1001,33 @@
                 height: 240px;
             }
         }
+
+        .logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 360px;
+}
+
+.logo img {
+    width: 100%;
+    max-width: 360px;
+    height: auto;
+    display: block;
+    object-fit: contain;
+    border-radius: 12px;
+}
     </style>
 </head>
 
 <body>
 
     <nav>
-        <div class="logo">
-            Mind<span>Arena</span> 🧠
-        </div>
+        <div class="brain-logo">
+    <div class="logo">
+    <h4>🧠Brain <span>Battle</span>💡</h4>
+</div>
+</div>
 
         <a href="{{ url_for('history') }}">
             📊 Quiz History

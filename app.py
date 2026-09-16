@@ -98,6 +98,7 @@ def home():
             difficulty=difficulty,
             player_name=player_name,
             total_questions=len(selected_questions)
+
         )
 
     return render_template(
@@ -178,6 +179,8 @@ def submit():
     # Save quiz history
     conn = sqlite3.connect(DATABASE)
     cursor = conn.cursor()
+
+    date_time = datetime.now().strftime("%d-%m-%Y %I: %M %p")
 
     cursor.execute("""
         INSERT INTO quiz_history
